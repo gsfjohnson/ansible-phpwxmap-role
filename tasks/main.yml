@@ -1,0 +1,8 @@
+---
+
+- name: install pkg
+  unarchive:
+    src="{{phpwxmap_dl_url}}"
+    copy=no
+    dest={{phpwxmap_www_dir}}
+
