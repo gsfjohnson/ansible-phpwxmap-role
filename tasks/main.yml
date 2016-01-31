@@ -1,8 +1,17 @@
 ---
 
+- name: check if already installed
+  stat: path={{phpwxmap_www_dir}}/weathermap
+  register: _stat
+
+- name: download pkg
+  get_url:
+    url="{{phpwxmap_dl_url}}"
+    dest=/tmp
+  register: _dl
+  when: not _stat.stat.exists
+
 - name: install pkg
-  unarchive:
-    src="{{phpwxmap_dl_url}}"
-    copy=no
-    dest={{phpwxmap_www_dir}}
+  unarchive: src={{_dl.dest}} copy=no dest={{phpwxmap_www_dir}}
+  when: not _stat.stat.exists
 
